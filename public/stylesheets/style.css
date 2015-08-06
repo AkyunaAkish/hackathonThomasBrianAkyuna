@@ -7,6 +7,7 @@
 
 body {
     font: 13px Helvetica, Arial;
+    background: rgb(231,231,231);
 }
 
 .messageSubmitForm {
@@ -214,4 +215,73 @@ body {
     color: red;
     /*   font-family: fantasy; */
     font-family: Gill Sans Extrabold, sans-serif;
+}
+
+.usersNav{
+    border: 1px solid black;
+    height: 40px;
+    background: black;
+    background-size: cover;
+}
+
+.hangoutButton{
+    float: right;
+    margin-top: 3px;
+    margin-right: 3px;
+}
+
+.register{
+   background: rgb(109,161,64);
+    color: rgb(255,255,255);
+    border:none;
+    margin-top: 0.5%;
+    height: 20px;
+    width: 70px;
+}
+
+.login{
+    background: rgb(109,161,64);
+    color: rgb(255,255,255);
+    border:none;
+    margin-top: 0.5%;
+    height: 20px;
+    width: 70px;
+}
+
+.logout{
+    margin-top: 0.5%;
+    height: 20px;
+    width: 70px;
+    background: rgb(109,161,64);
+    color: rgb(255,255,255);
+    border:none;
+}
+
+
+
+
+/*start book css*/
+
+.booksDiv{
+    max-width: 75%;
+    overflow: scroll;
+    max-height: 750px;
+}
+
+.book {
+    width: 20%;
+    float: left;
+    min-height: 300px;
+    color: white;
+    padding: 20px;
+    margin:0px;
+}
+
+.book h2 {
+    padding: 20px;
+    background: rgba(000,000,000,0.6);
+}
+
+.book:nth-of-type(odd) {
+    background: black;
 }

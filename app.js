@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
+var unirest = require('unirest');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -29,6 +30,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//var querySelect = document.getElementsByClassName('bookFilter');
+//console.log(querySelect[0].value);
+
+app.get('/', function(req, res) {
+
+  unirest.get('http://api.nytimes.com/svc/books/v3/lists/hardcover-fiction.json?api-key=' + process.env.NYT_API_KEY)
+      .end(function (response) {
+        console.log(response.body.results.books);
+        var NYTBooks = response.body.results.books;
+        res.render('index', {books: NYTBooks});
+        //res.end('Done')
+      })
+
+})
 
 app.use('/', routes);
 app.use('/users', users);

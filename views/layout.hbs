@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{title}}</title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel="stylesheet" src="https://normalize-css.googlecode.com/svn/trunk/normalize.css"/>
 </head>
 <body>
-  <a href="/register"><button>Register</button></a>
-  <a href="/login"><button>Login</button></a>
-  <a href="/logout"><button>Logout</button></a>
-  {{{body}}}
+<nav class="usersNav">
+    <a href="/register">
+        <button class="register">Register</button>
+    </a>
+    <a href="/login">
+        <button class="login">Login</button>
+    </a>
+    <a href="/logout">
+        <button class="logout">Logout</button>
+    </a>
+    <!--<div>-->
+
+        <!--<form action="/" action="get">-->
+            <!--<select name="" id="" class="bookFilter">-->
+                <!--<option value="Hard-Cover Nonfiction">Hard-Cover Nonfiction</option>-->
+                <!--<option value=""></option>-->
+            <!--</select>-->
+        <!--</form>-->
+    <!--</div>-->
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <div class="hangoutButton">
+        <g:hangout render="createhangout"></g:hangout>
+    </div>
+</nav>
+
+{{{body}}}
+<script src="/app.js"></script>
+<script src="/nyt.js"></script>
+
 </body>
 </html>

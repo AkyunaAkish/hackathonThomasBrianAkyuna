@@ -41,6 +41,24 @@
 </form>
 
 
+<div class="booksDiv">
+    <h1>{{title}}</h1>
+    <p>{{title}}</p>
+    {{#books}}
+        <article class="book" style="background: url('{{book_image}}') no-repeat; background-size:cover; background-color:black">
+            <h2>{{title}}</h2>
+            <p>
+                by <strong>{{author}}</strong>
+            </p>
+        </article>
+    {{/books}}
+</div>
+
+
+
+
+
+
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
