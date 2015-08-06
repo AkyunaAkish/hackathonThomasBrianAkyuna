@@ -5,6 +5,7 @@ var bcrypt = require('bcryptjs');
 
 var db = require('monk')(process.env.MONGOLAB_URI);
 var user = db.get('users');
+var userMore = db.get('users');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,8 +21,8 @@ router.get('/register', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-console.log(req.body.email);
-  user.findOne({email: req.body.email}, function (err, docs) {
+    console.log(userMore);
+  userMore.findOne({email: req.body.email}, function (err, docs) {
     console.log('hey')
     if (docs && bcrypt.compareSync(req.body.passwordDigest, docs.passwordDigest)) {
       req.session.id = docs._id;
@@ -30,30 +31,12 @@ console.log(req.body.email);
     }
 
     else {
-      res.render('index', {loginError: 'Invalid username or password'});
+      res.render('login', {loginError: 'Invalid username or password'});
     }
 
   })
 
 });
-
-//router.post('/login', function(req, res, next) {
-//  console.log(req.body.email);
-//  user.findOne({email: req.body.email}, function (err, docs) {
-//    console.log('hey')
-//    if (docs && bcrypt.compareSync(req.body.password, docs.passwordDigest)) {
-//      req.session.id = docs._id;
-//      console.log(req.session);
-//      res.redirect('/');
-//    }
-//
-//    else {
-//      res.render('login', {loginError: 'Invalid username or password'});
-//    }
-//
-//  })
-//
-//});
 
 router.post('/register', function(req, res, next) {
   if (req.body.email == false) {
