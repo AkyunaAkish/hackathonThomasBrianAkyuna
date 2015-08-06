@@ -6,14 +6,12 @@ Password: <input type="password" name="password">
 <button type="submit" name="submit">Login</button>
 </form> -->
 
-<form action="/login" method="post">
-  <label for="username">Username
-    <input type="text" name="email"/>
+<form action="/login" method="POST">
+  <label for="email">Email
+    <input type="email" name="email" id="email"/>
   </label>
   <label for="password">Password
-    <input type="password" name="password"/>
+    <input type="password" name="passwordDigest" id="password"/>
   </label>
   <input type="submit" value="Login" class="homepageSubmit"/>
 </form>
-</div>
-</nav>
