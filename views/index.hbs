@@ -1,2 +1,179 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<link rel='stylesheet' href='/stylesheets/style.css'/>
+
+<div class="nickWrap">
+  <p id="nickError"></p>
+
+  <form class="nickNameForm"  name="Form">
+    <div id="please">Please enter a display name to join the Chatmosphere</div>
+    <label for="nickNameInput" id="nickLabel">Enter Display Name
+      <input type="text" id="nickname" name="nickInput"/>
+    </label>
+    <input type="submit" value="Submit" id="nickSubmit"/>
+  </form>
+</div>
+
+<div class="directMessageInstructions">
+  <p class='howToWhisperP'>
+    To send a direct message via the input field: /w valid-displayname your-message (If you don't see output after sending, you sent it correctly)
+      <button type="button" name="button" id='hideInstructions'>Hide</button>
+  </p>
+
+</div>
+
+<div id='users'>
+
+  <h2 class="userListHeader"><a href="/logout" class="logoutAnchor">
+    <button class="logoutAnchor">Logout</button>
+  </a>The<br> Chatmosphere
+</h2>
+
+</div>
+<div class="messageDiv">
+
+
+  <ul id="messages"></ul>
+
+</div>
+
+<form action="" class="messageSubmitForm">
+  <input id="m" autocomplete="off" />
+  <button id="send" >Send</button>
+</form>
+
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+<script>
+//scroll for only the person writing a message
+// var $cont = $('.messageDiv');
+// $cont[0].scrollTop = $cont[0].scrollHeight;
+//
+// //maybe messageArea on event?
+// $('#m').keyup(function (e) {
+//   if (e.keyCode == 13) {
+//     $cont[0].scrollTop = $cont[0].scrollHeight;
+//   }
+// })
+// $('#send').click(function () {
+//   $cont[0].scrollTop = $cont[0].scrollHeight;
+// })
+
+//timed scroll
+// $( "#send" ).on( "click",window.setInterval(function() {
+//   var elem = document.getElementsByClassName('messageDiv')[0];
+//   elem.scrollTop = elem.scrollHeight;
+// }, 100));
+
+//best scroll method so far
+$(".messageDiv").bind("DOMSubtreeModified",function() {
+  $(".messageDiv").animate({
+    scrollTop: $(".messageDiv")[0].scrollHeight
+  });
+});
+
+
+</script>
+
+<script>
+window.onbeforeunload = function() {
+  return 'By refreshing or navigating away from this page, you will be taken out of the chat, continue?';
+}
+</script>
+
+
+<script type="text/javascript">
+$( "#hideInstructions" ).click(function() {
+$( ".directMessageInstructions" ).hide();
+});
+</script>
+
+<script>
+
+jQuery(function ($) {
+  var socket = io.connect();
+  var $nickForm = $('.nickNameForm');
+  var $nickError = $('#nickError');
+  var $nickBox = $('#nickname');
+  var $users = $('#users');
+  var $logout = $('.logoutAnchor');
+  var $messageForm = $('.messageSubmitForm');
+  var $messageBox = $('#m');
+  var $chat = $('#messages');
+
+
+  //        $messageForm.hide();
+  //        $users.show();
+  $('.directMessageInstructions').hide();
+  $('.nickNameForm').submit(function(e) {
+    if ($.trim($("#nickname").val()) === "") {
+      alert('Please enter a display name');
+      return false;
+    }
+    else{
+      // $nickForm.submit(function (e) {
+      e.preventDefault();
+      socket.emit('new user',$nickBox.val().toLowerCase().replace(/[^\w\s]/gi, '').replace(/\s/g, "") , function (data) {
+
+        if (data) {
+          $('.nickWrap').hide();
+          $('.directMessageInstructions').show();
+          $('.messageDiv').show();
+        } else {
+          $nickError.html('<p class=pleaseUseDifferentName>That display name is already in use, try another</p>');
+        }
+      });
+      $nickBox.val('');
+      // });
+    }
+  });
+
+
+  socket.on('usernames', function (data) {
+    var html = '';
+    for (i = 0; i < data.length; i++) {
+      //                html += '<div>' + data[i] + '</div>' + '<br>'
+      html += data[i] + '<br>'
+    }
+    $users.html('<h2 class="userListHeader"><a href="/logout" class="logoutAnchor"><button class="logoutAnchor">Logout</button></a>The<br> Chatmosphere</h2>' + html);
+    $messageForm.show();
+    $users.show();
+    $logout.show();
+    //            $('.logoutAnchor').show();
+    //            $nickForm.hide();
+    //            $('#please').hide();
+    //            $('#nickWrap').hide();
+  });
+
+  $('.messageSubmitForm').submit(function(e) {
+    if ($.trim($("#m").val()) === "") {
+      return false;
+    }else{
+      // $messageForm.submit(function (e) {
+      e.preventDefault();
+      socket.emit('chat message', $('#m').val(), function(data){
+        $('#messages').append($('<li class="errorMessage">').text(data));
+      })
+      $('#m').val('');
+    }
+  })
+
+
+  socket.on('chat message', function (data) {
+    var nick = data.nick;
+    var ms = data.message;
+    if(nick !== undefined){
+      $('#messages').append($('<li class="chatMessage">').text(nick + ': ' + ms));
+    }
+  })
+
+  socket.on('whisper', function(data){
+    var nick = data.nick;
+    var ms = data.message;
+    if(nick !== undefined){
+      $('#messages').append($('<li class="whisper">').text(nick + ': ' + ms));
+    }
+  })
+
+})
+</script>

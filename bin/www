@@ -29,6 +29,71 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
+
+var io = require('socket.io')(server);
+
+//new  version with Private messaging
+//new stuff
+var users = {};
+
+io.on('connection', function (socket) {
+  socket.on('connect', function () {
+    console.log("socket connected");
+  });
+
+
+
+  //begin new stuff
+  socket.on('new user', function (data, callback) {
+    if (data in users) {
+      callback(false);
+    } else {
+      callback(true);
+      socket.nickname = data;
+      users[socket.nickname] = socket;
+      io.sockets.emit('usernames', Object.keys(users));
+    }
+  });
+  //end new stuff
+  socket.on('chat message', function (msg, callback) {
+    var data = msg.trim();
+    if(data.substr(0,3) === '/w '){
+      data = data.substr(3);
+      var ind = data.indexOf(' ');
+      if(ind !== -1){
+        var name = data.substring(0, ind);
+        var msg = data.substring(ind + 1);
+        if(name in users){
+          users[name].emit('whisper', {message: msg, nick: socket.nickname});
+          console.log('Whisper!!!');
+        }else{
+          callback('Error , enter a valid user for your direct message.');
+        }
+
+      }else{
+        callback('Error , please enter a message for your direct message.');
+      }
+
+    }else{
+
+
+      io.emit('chat message', {message: msg, nick: socket.nickname});
+    }
+  });
+
+
+
+  socket.on('disconnect', function (data) {
+    if (!socket.nickname) {
+      return;
+    }
+    delete users[socket.nickname];
+    io.sockets.emit('usernames', Object.keys(users));
+
+  })
+});
+//end new Version with private messages
+
 /**
  * Normalize a port into a number, string, or false.
  */
