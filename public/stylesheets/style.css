@@ -14,22 +14,23 @@ body {
     padding: 3px;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    margin-left: 75%;
+    width: 15%;
 }
 
 .messageSubmitForm input {
     border: 0;
     padding: 10px;
-    width: 90%;
+    width: 100%;
     margin-right: .5%;
 }
 
 .messageSubmitForm button {
-    width: 9%;
+    width: 100%;
     background: rgb(130, 224, 255);
     border: none;
     padding: 10px;
-    background: url('http://www.thenewestmovie.com/wp-content/uploads/2009/06/19384_medium.jpg') no-repeat;
+    background: grey;
     background-size: cover;
     color: white;
 }
@@ -37,11 +38,12 @@ body {
 .messageDiv {
     overflow: auto;
     position: absolute;
-    width: 85%;
-    height: 697px;
+    width: 15%;
+    height: 90%;
     border: 1px solid black;
     word-break: break-all;
     clear: both;
+    margin-left: 75%;
 
 }
 
@@ -70,16 +72,16 @@ body {
     /*position: fixed;*/
     right: 0;
     top: 15px;
-    margin-right: 1%;
-    width: 100%;
-    /*float: right;*/
+
+    width: 10%;
+    float: right;
     border: 1px solid black;
     clear: both;
 }
 
 .messageDiv {
     border: 1px solid black;
-    display: none;
+    /* display: none; */
     float: right;
     /*   font-family: fantasy; */
     font-family: Gill Sans Extrabold, sans-serif;
@@ -100,11 +102,12 @@ body {
     font-family: Gill Sans Extrabold, sans-serif;
     font-weight: bold;
     font-size: large;
-    border: 1px solid black;
+    border: 1px solid white;
     /*float: right;*/
     /*clear: both;*/
-    height: 697px;
-    width: 15%;
+/*     height: 697px; */
+    max-height: 765px;
+    width: 10%;
     float: right;
     clear: both;
     word-break: break-all;
@@ -115,7 +118,7 @@ body {
 .userListHeader {
     border-bottom: 1px solid black;
     clear: both;
-    background: url('http://i1-news.softpedia-static.com/images/news2/Earth-s-Atmosphere-Has-so-Far-Been-Obliterated-at-Least-Twice-466443-3.jpg') no-repeat;
+    background: grey;
     background-size: cover;
     color: white;
 }
